@@ -17,7 +17,7 @@ pipeline {
                     sh '''
                         node --version
                         # npm install -g n
-                        export NODE_OPTIONS=--max_old_space_size=400
+                        # export NODE_OPTIONS=--max_old_space_size=400
                         npm install
                         #npm install  --legacy-peer-deps
                         # npm fund
@@ -34,7 +34,6 @@ pipeline {
                     echo '\033[34m- - - [_] [_] [_] Build App [_] [_] [_] - - -\033[0m'
                     sh '''
                         echo $NODE_OPTIONS
-                        node --max_old_space_size=400 ./node_modules/@angular/cli/bin/ng serve
                         ng build
                     '''
                     container('docker') {
