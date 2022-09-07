@@ -4,9 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ![Image of Project](https://raw.githubusercontent.com/Anderies/clock-greets/master/src/assets/realtime.gif)
 
-## Make it your Project 
+## Make it your Project
+
 - ng new clock-greets
-- open it and do npm install 
+- open it and do npm install
 - and run it with ng s -o
 
 ## Development server
