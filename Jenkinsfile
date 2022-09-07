@@ -17,10 +17,8 @@ pipeline {
                     sh '''
                         node --version
                         npm install -g n
-                        n 12.0.0 | /bin/sh
                         export NODE_OPTIONS=--max_old_space_size=400
-                        echo $NODE_OPTIONS
-                        npm install --legacy-peer-deps
+                        #npm install --legacy-peer-deps
                         # npm fund
                         # npm audit fix --force
                         npm install -g @angular/cli@latest
@@ -35,8 +33,7 @@ pipeline {
                     echo '\033[34m- - - [_] [_] [_] Build App [_] [_] [_] - - -\033[0m'
                     sh '''
                         echo $NODE_OPTIONS
-                        export NODE_OPTIONS=--max_old_space_size=400
-                        echo $NODE_OPTIONS
+                        # export NODE_OPTIONS=--max_old_space_size=400
                         ng build
                     '''
                     container('docker') {
