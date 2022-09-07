@@ -16,9 +16,10 @@ pipeline {
                     echo '\033[34m- - - [_] [_] [_] Config Pipeline [_] [_] [_] - - -\033[0m'
                     sh '''
                         node --version
-                        npm install -g n
+                        # npm install -g n
                         export NODE_OPTIONS=--max_old_space_size=400
-                        #npm install --legacy-peer-deps
+                        npm install
+                        #npm install  --legacy-peer-deps
                         # npm fund
                         # npm audit fix --force
                         npm install -g @angular/cli@latest
