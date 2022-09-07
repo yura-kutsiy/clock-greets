@@ -34,6 +34,7 @@ pipeline {
                     echo '\033[34m- - - [_] [_] [_] Build App [_] [_] [_] - - -\033[0m'
                     sh '''
                         echo $NODE_OPTIONS
+                        node --max_old_space_size=400 ./node_modules/@angular/cli/bin/ng serve
                         ng build
                     '''
                     container('docker') {
