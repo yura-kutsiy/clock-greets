@@ -1,5 +1,9 @@
 name: ghActions
 
+on:
+  pull_request:
+    types: [opened, reopened]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
