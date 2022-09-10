@@ -23,9 +23,6 @@ jobs:
     - name: Install ng
       run: npm install -g @angular/cli@latest
 
-    - name: Run tests
-      run: ng test
-
     - name: Build
       run: ng build
 
