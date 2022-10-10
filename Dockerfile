@@ -1,4 +1,4 @@
-FROM node:slim as node
+FROM node:stable-alpine as node
 WORKDIR /app
 COPY . .
 RUN npm install
