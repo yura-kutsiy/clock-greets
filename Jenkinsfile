@@ -1,6 +1,6 @@
 
 pipeline {
-    agent { label 'pi' }
+    agent { label 'kaniko' }
     // triggers {
     //     cron('H 4/* 0 0 1-5')
     // }
@@ -14,46 +14,39 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerCred')
         def dockerRegistry = "yurasdockers";
         def dashboardName = "dashboard";
+        def dashboardCache= "${dashboardName}-cache"
         def dashboardTag = "0.2-clck"
     }
         stages {
-            stage('Config pipeline') {
-                steps {
-                    echo "\u001B[31mINFO: Some specific configuration\u001B[0m"
-                    sh '''
-                        export DOCKER_BUILDKIT=1
-                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                       '''
+                // the code here can access $pass and $user
+            stage('Build') { 
+                steps { 
+                withCredentials([file(credentialsId: 'config.json', variable: 'FILE')]) {
+                    // sh 'use $FILE'
+                    container('kaniko') {
+                        script {
+                            sh '''
+                                cat $FILE > /kaniko/.docker/config.json
+                                /kaniko/executor --context `pwd` \
+                                                 --snapshotMode=full \
+                                                 --cache=true \
+                                                 --cache-repo ${dockerRegistry}/${dashboardCache} \
+                                                 --destination ${dockerRegistry}/${dashboardName}:${dashboardTag}
+                            '''
+                        }
+                    }
+                }           
                 }
             }
-            stage('Test') {
-                steps {
-                    echo "\u001B[31mINFO: Testing start\u001B[0m"
-                    // sh '''
-                    //     docker build --target test-runner -t tests/test-runner .
-                    //    '''
-                }
-            }
-            stage('Build') {
-                steps {
-                    echo "\u001B[31mINFO: Building start\u001B[0m"
-                    sh '''
-                        docker build -t ${dockerRegistry}/${dashboardName}:${dashboardTag} .
-                        docker push ${dockerRegistry}/${dashboardName}:${dashboardTag}
-                    '''
-                }
+        stage('Test'){
+            steps {
+                sh 'echo "testing will be here"'
             }
         }
-        post {
-        // Clean after build
-        always {
-            // sh 'docker logout'
-            cleanWs(cleanWhenNotBuilt: true,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    cleanWhenFailure: true,
-                    cleanWhenSuccess: true)
+        stage('Deploy') {
+            steps {
+                sh 'echo "deploy with GitOps"'
+            }
         }
     }
 }
