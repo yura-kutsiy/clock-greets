@@ -6,29 +6,27 @@ on:
       - 'gitHubActions'
 
 jobs:
-  docker-build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+#   docker-build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Set up QEMU
+#         uses: docker/setup-qemu-action@v2
       
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v2
       
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: user/app:latest
+#       - name: Build and push
+#         uses: docker/build-push-action@v3
+#         with:
+#           push: false
+#           tags: user/app:latest
       
       
   new-workflow:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
     steps:
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
@@ -40,9 +38,11 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./
+          file: ./
           # Note: tags has to be all lower-case
           tags: |
-            ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest 
+            ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
+            test-tag
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
