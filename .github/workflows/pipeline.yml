@@ -20,16 +20,3 @@ jobs:
         with:
           push: false
           tags: user/app:latest
-          
-  kaniko-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: build with kaniko
-        uses: aevea/action-kaniko@master
-        with:
-          image: yurasdockers/dashboard
-          tag: 0.3-test-tag
-          tag_with_latest: true
-          cache: true
-          cache_registry: yurasdockers/dashboard-cache
