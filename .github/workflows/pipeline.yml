@@ -25,7 +25,7 @@ jobs:
   new-workflow:
     runs-on: ubuntu-latest
     env: # Or as an environment variable
-      username: ${{ secrets.DOCKERHUB_REGISTRY }}
+      Username: ${{ secrets.DOCKERHUB_REGISTRY }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
       
     steps: 
