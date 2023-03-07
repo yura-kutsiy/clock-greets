@@ -37,6 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
+          cache-to: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest, mode=max
           cache-from: type=registry,ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
           tags: |
             ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:0.3-link
