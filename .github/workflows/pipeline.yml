@@ -37,10 +37,10 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          cache-from: type=registry,ref=yurasdockers/dashboard:latest
+          cache-from: type=registry,ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
           tags: |
-            yurasdockers/dashboard:0.3-link
-            latest
+            ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:0.3-link
+            ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
