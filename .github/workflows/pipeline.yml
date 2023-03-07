@@ -23,7 +23,6 @@ jobs:
 #       - name: Build image and push to Docker Hub
 #         uses: docker/build-push-action@v4
 #         with:
-#           # cache-from: type=registry,ref=yurasdockers/dashboard:latest
 # #           cache-to: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}, mode=max
 # #           cache-from: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}
 #           # Note: tags has to be all lower-case
@@ -37,9 +36,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          # context: .
           push: true
-          tags: yurasdockers/dashboard:latest
+          cache-from: type=registry,ref=yurasdockers/dashboard:latest
+          tags: |
+            yurasdockers/dashboard:0.3-link
+            latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
