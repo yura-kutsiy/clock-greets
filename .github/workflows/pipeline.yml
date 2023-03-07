@@ -20,18 +20,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_REGISTRY }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build image and push to Docker Hub
+#       - name: Build image and push to Docker Hub
+#         uses: docker/build-push-action@v4
+#         with:
+#           # cache-from: type=registry,ref=yurasdockers/dashboard:latest
+# #           cache-to: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}, mode=max
+# #           cache-from: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}
+#           # Note: tags has to be all lower-case
+#             # ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
+#           tags: |
+#             yurasdockers/dashboard:latest
+#             test-tag
+#           # build on feature branches, push only on **** branch
+#           push: ${{ github.ref == 'refs/heads/gitHubActions' }}
+
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
-#           cache-to: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}, mode=max
-#           cache-from: type=registry, ref=${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_CASHE}}
-          # Note: tags has to be all lower-case
-            # ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
-          tags: |
-            yurasdockers/dashboard:latest
-            test-tag
-          # build on feature branches, push only on **** branch
-          push: ${{ github.ref == 'refs/heads/gitHubActions' }}
+          context: .
+          push: true
+          tags: yurasdockers/dashboard:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
