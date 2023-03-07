@@ -29,8 +29,8 @@ jobs:
           tags: |
             ${{secrets.DOCKERHUB_REGISTRY}}/${{secrets.DASHBOARD_NAME}}:latest
             test-tag
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
+          # build on feature branches, push only on **** branch
+          push: ${{ github.ref == 'refs/heads/gitHubActions' }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
